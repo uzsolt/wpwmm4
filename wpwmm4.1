@@ -1,0 +1,204 @@
+.TH wpwmm4 1 "21 Dec 2016" "" "wpwmm4 man page"
+.SH NAME
+wpwmm4 \- Web Page With Make and M4
+
+.SH SYNOPSIS
+Simple use the make command. The Makefile is compatible with FreeBSD's and GNU make too.
+
+.SH DESCRIPTION
+With wpwmm4 can create static web pages from 
+.I m4
+files. The generating is done by `make'. You can use external scripts or
+commands.
+
+.SH USAGE
+You should create a
+.B config.mk
+file in a directory and set the following variables inside this file. You can use
+.I include
+in your
+.I config.mk
+of course.
+
+.IP SRC_DIR
+This variable points to the source directory where the source files (usually *.m4)
+are. It can contain subdirectories.
+.IP ASSETS_DIR
+In this directory are the static files (*.css, *.js, etc.).
+.IP DEST_DIR
+The compiled (created) HTML's place. The subdirectory tree of
+.I SRC_DIR
+is created in this directory by
+.I make.
+.IP LAYOUT_DIR
+Here are the layouts.
+.IP VIRT_DIR
+This directory contains the templates of virtual pages.
+.IP TARGETS
+The space-seperated list of static files (virtual pages aren't included)
+what should create. Don't include the
+.I ${DEST_DIR}
+because it's included by the building system. You can
+use directories of course.
+.IP foo.html_REQ
+Additional requirements of
+.I foo.html
+which is included in
+.I ${TARGETS}
+variable (see above). The
+.I foo.m4
+is automatically added. These variables are optional.
+
+.IP M4
+The
+.I m4
+command. In most cases can set simply to
+.I m4
+(in PATH). This variable is optional, default value is `m4'.
+
+.IP M4_PARAMS
+Parameters of
+.I m4
+command. The default value is
+
+.B -P -I include -D_SRC_DIR=${SRC_DIR}
+
+Please note that option
+.B -P
+is neccessary because we use builtin macros with
+.I m4_
+prefix.
+
+.SH VIRTUALS
+The virtual pages haven't source (m4) files.
+It's useful when you want create similar pages with similar content (for example
+listing of PDF files, listing images, ...).
+
+You should create groups of
+.B VIRTUALS
+(you can add only ONE virtual to a group). You can do it with the following variables:
+
+.IP VIRTUALS
+Contains the name of the categories. E.g.
+
+.B VIRTUALS=cat1 cat2
+
+The categories is separated by a space character.
+
+.IP VIRTUALTEMPLATE_*
+You can set (following the example above)
+.B VIRTUALTEMPLATE_cat1
+and
+.B VIRTUALTEMPLATE_cat2
+variables.
+Their values say which template should use to generate the virtual pages.
+The templates are stored in
+.I VIRT_DIR
+directory.
+
+In your template files you can use dynamically created variables, see
+.B VARIABLES INSIDE SOURCES
+section below.
+
+.IP VIRTUALDIR_*
+This variable points to the target directory where the generated pages should
+appear. You have to set every category, so you have to set
+.B VIRTUALDIR_cat1
+and
+.B VIRTUALDIR_cat2
+too.
+
+.IP VIRTUALOUT_*
+The output filenames. For example
+
+.B VIRTUALOUT_cat1=foo1.html foo2.html
+
+In this case you will have 
+.I ${VIRTUALDIR_cat1}/foo1.html
+and
+.I ${VIRTUALDIR_cat1}/foo2.html
+files.
+
+.IP VIRTUALREQ_*
+Additional requirements to the virtual category. The ${VIRTUALTEMPLATE_*}.m4 is added
+automatically.
+
+.SH SPECIAL TARGETS
+You can define some special targets in your `config.mk'.
+.IP pre-everything
+This target will execute
+.I before
+any other target (except `clean' of course).
+For example you can run a script which creates some files, even a file what is
+used in wpwmm4. With this target can emulate the
+.I tags
+feature (using
+.B VIRTUALS
+feature).
+
+Another idea is automatically generate the
+.I ${TARGETS}
+variable (with the `find' command).
+
+.SH VARIABLES INSIDE SOURCES
+The following variables are created dynamically during building and
+you can use them in your m4 sources and templates.
+.IP _DIRECTORY
+The target directory inside
+.I ${DEST_DIR}
+(without ${DEST_DIR} prefix). The root of 
+.I ${DEST_DIR}
+is "." (dot).
+.IP _FILE
+The target filename which is under generating (without any extension).
+
+.SH HELPERS
+The system ships some helpers which you can use in your files. They are
+defined in
+.B 00_defines.m4
+file. Here is the list of helpers:
+.IP _BODY(options,content)
+Produces <body $options>$content</body>
+.IP _CHARSET(charset)
+Produces <meta charset="$charset">.
+.IP _CLASS(class1,class2,...)
+Produces class="$class1 $class2 ..."
+.IP _CSS(cssfile)
+Produces <link rel="stylesheet" href=$cssfile>.
+.IP _DIV(class,content,options)
+Produces <div class=$class $options>$content</div>
+.IP _HEAD(options,content)
+Produces <head $options>$content</head>
+.IP _HREF(url,text,options,title)
+Produces <a href=$url $options title=$title>text</a>
+.IP _META(parameters)
+Produces <meta $parameters)
+.IP _STAG(tagname,parameters)
+Produces <$tagname $parameters>
+.IP _TAG(tagname,content,options)
+Produces <$tagname $options>$content</$tagname>.
+.IP _TITLE(title,options)
+Produces <title $options>$title</title>
+
+.SH BUILT-IN COMMANDS
+There are some commands which can help. They are defined in
+.B 00_defines.m4
+too. Here is the list:
+.IP _SCRIPT(command)
+Executes $command and paste its output (stdout and stderr too). It
+uses the m4's
+.B esyscmd
+macro.
+.IP _LAYOUT(layout)
+Load the $layout layout. It uses m4's
+.B include
+macro. You can define the web page layout at the beginning of source file.
+
+.SH FILES
+config.mk
+
+.SH SEE ALSO
+.B m4(1)
+
+.SH AUTHOR
+Zsolt Udvari (udvzsolt@gmail.com, www.uzsolt.hu)
