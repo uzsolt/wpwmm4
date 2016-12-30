@@ -55,13 +55,16 @@ ${DEST_DIR}${T}: ${TDIR} ${T:S/^/${SRC_DIR}/:S/html$/m4/} ${${T}_REQ}
 # Looping all ${VIRTUALS}
 .for CATEG in ${VIRTUALS}
 VIRTUAL_FILES+=${VIRTUALOUT_${CATEG}:S/^/${DEST_DIR}${VIRTUALDIR_${CATEG}}/}
+VIRTUALREQRULE_${CATEG}?=C,.*,,
 
 # Create files from ${VIRTUALS} using ${VIRT_DIR}/*.m4
 # Pass the directory as `_DIRECTORY' and create filename 
 # without extension as `_FILE'
-${VIRTUALOUT_${CATEG}:S/^/${DEST_DIR}${VIRTUALDIR_${CATEG}}/}: ${DEST_DIR}${VIRTUALDIR_${CATEG}} \
+.for VOUT in ${VIRTUALOUT_${CATEG}}
+${DEST_DIR}${VIRTUALDIR_${CATEG}}${VOUT}: ${DEST_DIR}${VIRTUALDIR_${CATEG}} \
   ${VIRT_DIR}${VIRTUALTEMPLATE_${CATEG}}.m4 \
-  ${VIRTUALREQ_${CATEG}}
+  ${VIRTUALREQ_${CATEG}} \
+  ${VOUT:${VIRTUALREQRULE_${CATEG}}}
 	${MSG} Virtual ${VIRTUALTEMPLATE_${CATEG}}: ${.TARGET}
 	${MKDIR} ${VIRTUALOUT_${CATEG}:H:S/^/${DEST_DIR}${VIRTUALDIR_${CATEG}}/}
 	@${INCL} ${VIRT_DIR}${VIRTUALTEMPLATE_${CATEG}}.m4 | \
@@ -69,6 +72,7 @@ ${VIRTUALOUT_${CATEG}:S/^/${DEST_DIR}${VIRTUALDIR_${CATEG}}/}: ${DEST_DIR}${VIRT
 	  -D_DIRECTORY=${.TARGET:S/${DEST_DIR}//:H} \
 	  -D_FILE=${.TARGET:S/${DEST_DIR}//:R} \
 	  > ${.TARGET}
+.endfor
 .endfor
 
 assets::

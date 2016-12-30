@@ -123,6 +123,32 @@ files.
 Additional requirements to the virtual category. The ${VIRTUALTEMPLATE_*}.m4 is added
 automatically.
 
+.IP VIRTUALREQRULE_*
+A simple transformation rule to define a requirement by file. The transformation rule
+is applied on the elements of
+.B VIRTUALOUT_*
+variable. For example
+
+.B VIRTUALREQ_foo=C,.html,.dat,
+
+rule will transform every
+.I .html
+extension into
+.I .dat
+extension: the
+.I ${DESTDIR}/foodir/bar.html
+will depend on
+.I foodir/bar.dat
+file. Please note that the value of
+.B ${VIRTUALDIR_*}
+isn't included automatically so if you want it you should do it!
+
+Be careful about recursive dependencies!
+
+See the possible modifiers in the manual of
+.I make
+command!
+
 .SH SPECIAL TARGETS
 You can define some special targets in your `config.mk'.
 .IP pre-everything
@@ -199,6 +225,7 @@ config.mk
 
 .SH SEE ALSO
 .B m4(1)
+.B make(1)
 
 .SH AUTHOR
 Zsolt Udvari (udvzsolt@gmail.com, www.uzsolt.hu)
