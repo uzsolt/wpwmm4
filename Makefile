@@ -70,7 +70,7 @@ ${DEST_DIR}${VIRTUALDIR_${CATEG}}${VOUT}: ${DEST_DIR}${VIRTUALDIR_${CATEG}} \
 	@${INCL} ${VIRT_DIR}${VIRTUALTEMPLATE_${CATEG}}.m4 | \
 	  ${M4} ${M4_FLAGS} \
 	  -D_DIRECTORY=${.TARGET:S/${DEST_DIR}//:H} \
-	  -D_FILE=${.TARGET:S/${DEST_DIR}//:R} \
+	  -D_FILE=${.TARGET:S/${DEST_DIR}//:C/.*\///:R} \
 	  > ${.TARGET}
 .endfor
 .endfor
