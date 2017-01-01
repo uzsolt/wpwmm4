@@ -81,12 +81,15 @@ assets::
 
 virtual: pre-everything ${VIRTUAL_FILES}
 
-clean:
+clean: clean-other
 	rm -rf ${DEST_DIR}
 
 .if !target(pre-everything)
 pre-everything:
 .endif
+.if !target(clean-other)
+clean-other:
+.endif
 
-.PHONY: assets clean pre-everything virtual
+.PHONY: assets clean clean-other pre-everything virtual
 .MAIN: all

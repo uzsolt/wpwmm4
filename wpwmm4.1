@@ -170,6 +170,13 @@ Another idea is automatically generate the
 .I ${TARGETS}
 variable (with the `find' command).
 
+.IP clean-other
+When you run
+.I clean
+target (which deletes everything in
+.I ${DEST_DIR}
+directory) it will run too.
+
 .SH VARIABLES INSIDE SOURCES
 The following variables are created dynamically during building and
 you can use them in your m4 sources and templates.
