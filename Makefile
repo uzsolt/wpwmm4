@@ -43,7 +43,7 @@ ${TDIR:u}: pre-everything
 # Pass the directory of source file to m4 as `_DIRECTORY' and
 # the created filename without path and extension as `_FILE'.
 .for T in ${TARGETS}
-${DEST_DIR}${T}: ${TDIR} ${T:S/^/${SRC_DIR}/:S/html$/m4/} ${${T}_REQ}
+${DEST_DIR}${T}: ${GREQ} ${TDIR} ${T:S/^/${SRC_DIR}/:S/html$/m4/} ${${T}_REQ}
 	${MSG1} Building ${.TARGET}
 	@${INCL} ${.TARGET:S/${DEST_DIR}/${SRC_DIR}/:R}.m4 | \
 	  ${M4} ${M4_FLAGS} \
@@ -61,7 +61,8 @@ VIRTUALREQRULE_${CATEG}?=C,.*,,
 # Pass the directory as `_DIRECTORY' and create filename 
 # without extension as `_FILE'
 .for VOUT in ${VIRTUALOUT_${CATEG}}
-${DEST_DIR}${VIRTUALDIR_${CATEG}}${VOUT}: ${DEST_DIR}${VIRTUALDIR_${CATEG}} \
+${DEST_DIR}${VIRTUALDIR_${CATEG}}${VOUT}: ${GREQ} \
+  ${DEST_DIR}${VIRTUALDIR_${CATEG}} \
   ${VIRT_DIR}${VIRTUALTEMPLATE_${CATEG}}.m4 \
   ${VIRTUALREQ_${CATEG}} \
   ${VOUT:${VIRTUALREQRULE_${CATEG}}}
