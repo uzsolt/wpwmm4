@@ -245,7 +245,38 @@ macro.
 Load the $layout layout. It uses m4's
 .B include
 macro. You can define the web page layout at the beginning of source file.
-
+.IP _INCL(file)
+Includes a $file. The
+.B divert
+is -1 so this macro doesn't produce any output. It's ideal to load
+a file with macro definitions.
+.IP _2_BODY(*)
+The $* will into the
+.I body
+tag. This macro collects all inputs and doesn't print
+anything. With
+.B _PR_BODY
+can print (and empty) the content (a simple
+.B undivert
+macro).
+.IP _2_HEAD(*)
+Same as
+.B _2_BODY
+but it collects into
+.I head
+tag.
+.IP _PR_HEAD
+Similar as PR_BODY.
+.IP _PR_ALL
+It prints
+.I <!DOCTYPE html><html>
+after calls
+.B _PR_HEAD
+and
+.B _PR_BODY
+and after close the
+.I html
+tag.
 .SH FILES
 config.mk
 
