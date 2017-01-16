@@ -21,11 +21,6 @@ INCL=${CAT} ${COMMON_DIR}${M4_DEFINITIONS}
 # Prepend the ${DEST_DIR}
 WTARGETS=${TARGETS:S/^/${DEST_DIR}/}
 
-# Working Virtuals
-# Prepend ${VIRT_DIR} and append m4
-# They are the requirements to target `virtual'
-WVIRTUALS=${VIRTUALS:C/^.*$/${VIRT_DIR}&.m4/}
-
 # Target directories
 # Remove the filenames
 TDIR=${WTARGETS:H:u}
