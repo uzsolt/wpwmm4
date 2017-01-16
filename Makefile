@@ -1,5 +1,6 @@
 include config.mk
 
+COMMON_DIR?=/home/zsolt/progs/wpwmm4/
 INCLUDE_DIR=include/
 M4_DEFINITIONS=00_defines.m4
 
@@ -14,7 +15,7 @@ MSG=@echo "==>"
 MSG1=@echo "  ==>"
 MSG2=@echo "    ==>"
 
-INCL=${CAT} ${INCLUDE_DIR}${M4_DEFINITIONS}
+INCL=${CAT} ${COMMON_DIR}${M4_DEFINITIONS}
 
 # Working Targets
 # Prepend the ${DEST_DIR}
