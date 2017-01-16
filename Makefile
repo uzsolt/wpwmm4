@@ -1,7 +1,7 @@
 include config.mk
 
 COMMON_DIR?=/home/zsolt/progs/wpwmm4/
-INCLUDE_DIR=include/
+INCLUDE_DIR?=include/
 M4_DEFINITIONS=00_defines.m4
 
 # If there are unset we're using default values
