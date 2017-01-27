@@ -202,6 +202,13 @@ target (which deletes everything in
 .I ${DEST_DIR}
 directory) it will run too.
 
+.SH INFORMATION TARGETS
+There are some special targets to help debug your config.
+.IP show-config
+Show the main variables.
+.IP show-virtuals
+This target will show the defined virtuals and their configs.
+
 .SH VARIABLES INSIDE SOURCES
 The following variables are created dynamically during building and
 you can use them in your m4 sources and templates.

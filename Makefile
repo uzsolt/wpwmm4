@@ -80,6 +80,25 @@ virtual: pre-everything ${VIRTUAL_FILES}
 clean: clean-other
 	rm -rf ${DEST_DIR}
 
+.for VAR in ASSETS_DIR COMMON_DIR DEST_DIR INCLUDE_DIR LAYOUT_DIR SRC_DIR VIRT_DIR
+VARIABLES:=${VARIABLES}${VAR} = ${${VAR}}${.newline}
+.endfor
+
+.for VAR in ${VIRTUALS:O}
+VIRTVARS:=${VIRTVARS}*** ${VAR} ***${.newline}\
+TEMPLATE: ${VIRTUALTEMPLATE_${VAR}}${.newline}\
+OUT: ${VIRTUALOUT_${VAR}}${.newline}\
+REQ: ${VIRTUALREQ_${VAR}}${.newline}\
+REQRULE: ${VIRTUALREQRULE_${VAR}}${.newline}\
+${.newline}
+.endfor
+
+show-config:
+	@echo "${VARIABLES}"
+
+show-virtuals:
+	@echo "${VIRTVARS}"
+
 .if !target(pre-everything)
 pre-everything:
 .endif
@@ -87,5 +106,5 @@ pre-everything:
 clean-other:
 .endif
 
-.PHONY: assets clean clean-other pre-everything virtual
+.PHONY: assets clean clean-other pre-everything show-config show-virtuals virtual
 .MAIN: all
