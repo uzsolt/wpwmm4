@@ -71,6 +71,7 @@ ${DEST_DIR}${VIRTUALDIR_${CATEG}}${VOUT}: ${GREQ} \
 	  > ${.TARGET}
 .endfor
 .endfor
+# End of looping ${VIRTUALS}
 
 assets::
 	@cp -r ${ASSETS_DIR} ${DEST_DIR}
