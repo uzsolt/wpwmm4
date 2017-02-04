@@ -262,6 +262,10 @@ macro.
 Load the $layout layout. It uses m4's
 .B include
 macro. You can define the web page layout at the beginning of source file.
+.IP _LAYOUT_PRE(pre)
+The $pre is printed before the included content.
+.IP _LAYOUT_POST(post)
+The $post is printed after the included content.
 .IP _INCL(file)
 Includes a $file. The
 .B divert
