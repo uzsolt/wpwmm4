@@ -6,7 +6,7 @@ M4_DEFINITIONS=00_defines.m4
 
 # If there are unset we're using default values
 M4?=m4
-M4_FLAGS?=-P -I ${INCLUDE_DIR} \
+M4_FLAGS?=-P -I ${COMMON_DIR} -I ${INCLUDE_DIR} \
 		  -D_SRC_DIR=${SRC_DIR} -D_LAYOUT_DIR=${LAYOUT_DIR}
 CAT?=cat
 MKDIR=@mkdir -p
