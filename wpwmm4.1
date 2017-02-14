@@ -258,10 +258,12 @@ Executes $command and paste its output (stdout and stderr too). It
 uses the m4's
 .B esyscmd
 macro.
-.IP _LAYOUT(layout)
+.IP _LAYOUT(layout,VarName1,Var1,VarName2,Var2,...)
 Load the $layout layout. It uses m4's
 .B include
 macro. You can define the web page layout at the beginning of source file.
+
+This command will assign the variables VarName1, VarName2,... with values Var1, Var2.
 .IP _LAYOUT_PRE(pre)
 The $pre is printed before the included content.
 .IP _LAYOUT_POST(post)
