@@ -43,7 +43,7 @@ ${DEST_DIR}${T}: ${GREQ} ${TDIR} ${T:S/^/${SRC_DIR}/:S/html$/m4/} ${${T}_REQ}
 	${MSG1} Building ${.TARGET}
 	@${INCL} ${.TARGET:S/${DEST_DIR}/${SRC_DIR}/:R}.m4 | \
 	  ${M4} ${M4_FLAGS} \
-	  -D_DIRECTORY=${.TARGET:H:S/${DEST_DIR}//:H} \
+	  -D_DIRECTORY=${.TARGET:H:S/${DEST_DIR}//} \
 	  -D_FILE=${.TARGET:S/${DEST_DIR}//:R} \
 	   > ${.TARGET}
 .endfor
