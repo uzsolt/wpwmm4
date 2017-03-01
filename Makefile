@@ -74,7 +74,9 @@ ${DEST_DIR}${VIRTUALDIR_${CATEG}}${VOUT}: ${GREQ} \
 # End of looping ${VIRTUALS}
 
 assets::
+.ifdef ASSETS_DIR
 	@cp -r ${ASSETS_DIR} ${DEST_DIR}
+.endif
 
 virtual: pre-everything ${VIRTUAL_FILES}
 
