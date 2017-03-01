@@ -109,5 +109,5 @@ pre-everything:
 clean-other:
 .endif
 
-.PHONY: assets clean clean-other pre-everything show-config show-virtuals virtual
+.PHONY: all assets clean clean-other pre-everything show-config show-virtuals virtual
 .MAIN: all
