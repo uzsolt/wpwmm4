@@ -14,7 +14,7 @@ m4_define(_TAG,<`$1' `$3'>`$2'</`$1'>)
 m4_define(_TITLE,_TAG(title,`$1',`$2'))
 
 m4_dnl Built-in macros
-m4_define(_SCRIPT,`m4_esyscmd'(scripts/$1))
+m4_define(_SCRIPT,``m4_esyscmd'(scripts/$1)')
 m4_define(_LAYOUT,m4_divert(-1)`_MASS_DEFINE(m4_shift($@))'`m4_include'(_LAYOUT_DIR$1)`m4_include'(end_layout.m4))
 m4_define(_LAYOUT_PRE,_2_BODY($1))
 m4_define(_LAYOUT_POST,m4_define(__layoutpost,$1))
