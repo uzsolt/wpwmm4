@@ -27,6 +27,7 @@ TDIR=${WTARGETS:H:u}
 
 .for CATEG in ${VIRTUALS}
 TDIR+=${DEST_DIR}${VIRTUALDIR_${CATEG}}
+TDIR:=${TDIR}
 .endfor
 
 all: assets ${WTARGETS} virtual
@@ -39,7 +40,12 @@ ${TDIR:u}: pre-everything
 # Pass the directory of source file to m4 as `_DIRECTORY' and
 # the created filename without path and extension as `_FILE'.
 .for T in ${TARGETS}
-${DEST_DIR}${T}: ${GREQ} ${TDIR} ${T:S/^/${SRC_DIR}/:S/html$/m4/} ${${T}_REQ}
+CT:=${DEST_DIR}${T}
+DEP:=${GREQ} ${TDIR} ${T:S/^/${SRC_DIR}/:S/html$/m4/} ${${T}_REQ}
+REQUIREMENT_${CT}:=${DEP}
+ALLTARGET+=${CT}
+ALLTARGET:=${ALLTARGET}
+${CT}: ${DEP}
 	${MSG1} Building ${.TARGET}
 	@${INCL} ${.TARGET:S/${DEST_DIR}/${SRC_DIR}/:R}.m4 | \
 	  ${M4} ${M4_FLAGS} \
@@ -51,17 +57,23 @@ ${DEST_DIR}${T}: ${GREQ} ${TDIR} ${T:S/^/${SRC_DIR}/:S/html$/m4/} ${${T}_REQ}
 # Looping all ${VIRTUALS}
 .for CATEG in ${VIRTUALS}
 VIRTUAL_FILES+=${VIRTUALOUT_${CATEG}:S/^/${DEST_DIR}${VIRTUALDIR_${CATEG}}/}
+VIRTUAL_FILES:=${VIRTUAL_FILES}
 VIRTUALREQRULE_${CATEG}?=C,.*,,
 
 # Create files from ${VIRTUALS} using ${VIRT_DIR}/*.m4
 # Pass the directory as `_DIRECTORY' and create filename 
 # without extension as `_FILE'
 .for VOUT in ${VIRTUALOUT_${CATEG}}
-${DEST_DIR}${VIRTUALDIR_${CATEG}}${VOUT}: ${GREQ} \
+CT:=${DEST_DIR}${VIRTUALDIR_${CATEG}}${VOUT}
+DEP:=${GREQ} \
   ${DEST_DIR}${VIRTUALDIR_${CATEG}} \
   ${VIRT_DIR}${VIRTUALTEMPLATE_${CATEG}}.m4 \
   ${VIRTUALREQ_${CATEG}} \
   ${VOUT:${VIRTUALREQRULE_${CATEG}}}
+REQUIREMENT_${CT}:=${DEP}
+ALLTARGET+=${CT}
+ALLTARGET:=${ALLTARGET}
+${CT}: ${DEP}
 	${MSG} Virtual ${VIRTUALTEMPLATE_${CATEG}}: ${.TARGET}
 	${MKDIR} ${VIRTUALOUT_${CATEG}:H:S/^/${DEST_DIR}${VIRTUALDIR_${CATEG}}/}
 	@${INCL} ${VIRT_DIR}${VIRTUALTEMPLATE_${CATEG}}.m4 | \
@@ -99,6 +111,16 @@ ${.newline}
 show-config:
 	@echo "${VARIABLES}"
 
+show-targets:
+	@echo ${ALLTARGET} | tr ' ' '\n'
+
+show-req:
+.for T in ${ALLTARGET}
+	@echo
+	@echo ${T}:
+	@printf "  %s\n" ${REQUIREMENT_${T}}
+.endfor
+
 show-virtuals:
 	@echo "${VIRTVARS}"
 
@@ -109,5 +131,5 @@ pre-everything:
 clean-other:
 .endif
 
-.PHONY: all assets clean clean-other pre-everything show-config show-virtuals virtual
+.PHONY: all assets clean clean-other pre-everything show-config show-targets show-req show-virtuals virtual
 .MAIN: all

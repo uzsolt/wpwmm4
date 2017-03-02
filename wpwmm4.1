@@ -206,6 +206,12 @@ directory) it will run too.
 There are some special targets to help debug your config.
 .IP show-config
 Show the main variables.
+.IP show-targets
+Show the targets (including virtual targets).
+.IP show-req
+Show the targets with their requirements. The target begins a line without any
+whitespace, the requirements are prefixed by two spaces. Between the
+latest requirement and the next target is an empty line inserted.
 .IP show-virtuals
 This target will show the defined virtuals and their configs.
 
