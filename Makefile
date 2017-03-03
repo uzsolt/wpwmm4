@@ -2,7 +2,10 @@ include config.mk
 
 COMMON_DIR?=/home/zsolt/progs/wpwmm4/
 INCLUDE_DIR?=include/
+FLAG_DIR?=flags/
 M4_DEFINITIONS=00_defines.m4
+
+FLAG_MKDIR=create-dirs
 
 # If there are unset we're using default values
 M4?=m4
@@ -30,18 +33,22 @@ TDIR+=${DEST_DIR}${VIRTUALDIR_${CATEG}}
 TDIR:=${TDIR}
 .endfor
 
-all: assets ${WTARGETS} virtual
+all: ${FLAG_DIR}${FLAG_MKDIR} assets ${WTARGETS} virtual
 
-# Create directories inside ${DEST_DIR}
-${TDIR:u}: pre-everything
-	${MKDIR} -p ${TDIR:u}
+${FLAG_DIR}${FLAG_MKDIR}: config.mk ${MKDIR_REQ}
+	${MSG} "Creating directory structure... (flagfile: ${.TARGET})"
+	@${MKDIR} -p ${FLAG_DIR}
+	@${MKDIR} -p ${TDIR:u}
+	@echo ${TDIR:u} | tr ' ' '\n' | sort > ${FLAG_DIR}${FLAG_MKDIR}
+
+create-dirs: ${FLAG_DIR}${FLAG_MKDIR}
 
 # Create files using ${SRC_DIR}/*.m4 in ${DEST_DIR}/*.html
 # Pass the directory of source file to m4 as `_DIRECTORY' and
 # the created filename without path and extension as `_FILE'.
 .for T in ${TARGETS}
 CT:=${DEST_DIR}${T}
-DEP:=${GREQ} ${TDIR} ${T:S/^/${SRC_DIR}/:S/html$/m4/} ${${T}_REQ}
+DEP:=${GREQ} ${T:S/^/${SRC_DIR}/:S/html$/m4/} ${${T}_REQ}
 REQUIREMENT_${CT}:=${DEP}
 ALLTARGET+=${CT}
 ALLTARGET:=${ALLTARGET}
@@ -69,7 +76,8 @@ DEP:=${GREQ} \
   ${DEST_DIR}${VIRTUALDIR_${CATEG}} \
   ${VIRT_DIR}${VIRTUALTEMPLATE_${CATEG}}.m4 \
   ${VIRTUALREQ_${CATEG}} \
-  ${VOUT:${VIRTUALREQRULE_${CATEG}}}
+  ${VOUT:${VIRTUALREQRULE_${CATEG}}} \
+  ${${VIRTUALDIR_${CATEG}}${VOUT}_REQ}
 REQUIREMENT_${CT}:=${DEP}
 ALLTARGET+=${CT}
 ALLTARGET:=${ALLTARGET}
@@ -94,6 +102,7 @@ virtual: pre-everything ${VIRTUAL_FILES}
 
 clean: clean-other
 	rm -rf ${DEST_DIR}
+	rm -rf ${FLAG_DIR}
 
 .for VAR in ASSETS_DIR COMMON_DIR DEST_DIR INCLUDE_DIR LAYOUT_DIR SRC_DIR VIRT_DIR
 VARIABLES:=${VARIABLES}${VAR} = ${${VAR}}${.newline}

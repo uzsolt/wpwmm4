@@ -40,6 +40,15 @@ The compiled (created) HTML's place. The subdirectory tree of
 .I SRC_DIR
 is created in this directory by
 .I make.
+.IP FLAG_DIR
+The directory where the flags are. Flags are simple files which store information
+about building. There is only one flag:
+.I ${FLAG_MKDIR}
+which signs the time when the directory structure is created in
+.I ${DEST_DIR}
+and stores the list of created directories. You can add plus depend via
+.I ${MKDIR_REQ}
+- so can re-build the directory structure after this file changed.
 .IP LAYOUT_DIR
 Here are the layouts.
 .IP VIRT_DIR
