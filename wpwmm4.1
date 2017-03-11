@@ -74,6 +74,13 @@ assingment (run a shell command and its output will the value). In
 this case you shouldn't add every file, you can use the
 .I find
 command (for example).
+.IP TARGETS_MANUAL
+The space-seperated list of static files what should create. Don't include the
+.I ${DEST_DIR}
+because it's included by the building system. These targets don't have
+automatically generated requirement as the
+.I ${TARGETS}
+above.
 .IP GREQ
 Global requirement. It's needed by
 .I every

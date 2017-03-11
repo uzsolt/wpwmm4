@@ -24,6 +24,10 @@ INCL=${CAT} ${COMMON_DIR}${M4_DEFINITIONS}
 # Prepend the ${DEST_DIR}
 WTARGETS=${TARGETS:S/^/${DEST_DIR}/}
 
+# Working Manual Targets
+# Prepend the ${DEST_DIR}
+WMTARGETS:=${TARGETS_MANUAL:S/^/${DEST_DIR}/}
+
 # Target directories
 # Remove the filenames
 TDIR=${WTARGETS:H:u}
@@ -33,7 +37,7 @@ TDIR+=${DEST_DIR}${VIRTUALDIR_${CATEG}}
 TDIR:=${TDIR}
 .endfor
 
-all: ${FLAG_DIR}${FLAG_MKDIR} assets ${WTARGETS} virtual
+all: ${FLAG_DIR}${FLAG_MKDIR} assets ${WTARGETS} ${WMTARGETS} virtual
 
 ${FLAG_DIR}${FLAG_MKDIR}: config.mk ${MKDIR_REQ}
 	${MSG} "Creating directory structure... (flagfile: ${.TARGET})"
