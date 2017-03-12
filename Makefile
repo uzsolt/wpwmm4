@@ -60,7 +60,7 @@ ${CT}: ${DEP}
 	${MSG1} Building ${.TARGET}
 	@${INCL} ${.TARGET:S/${DEST_DIR}/${SRC_DIR}/:R}.m4 | \
 	  ${M4} ${M4_FLAGS} \
-	  -D_DIRECTORY=${.TARGET:H:S/${DEST_DIR}//} \
+	  -D_DIRECTORY=${.TARGET:S/${DEST_DIR}//:H} \
 	  -D_FILE=${.TARGET:S/${DEST_DIR}//:R} \
 	   > ${.TARGET}
 .endfor
