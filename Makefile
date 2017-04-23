@@ -41,8 +41,8 @@ all: ${FLAG_DIR}${FLAG_MKDIR} assets ${WTARGETS} ${WMTARGETS} virtual
 
 ${FLAG_DIR}${FLAG_MKDIR}: config.mk ${MKDIR_REQ}
 	${MSG} "Creating directory structure... (flagfile: ${.TARGET})"
-	@${MKDIR} -p ${FLAG_DIR}
-	@${MKDIR} -p ${TDIR:u}
+	@${MKDIR} ${FLAG_DIR}
+	@${MKDIR} ${TDIR:u}
 	@echo ${TDIR:u} | tr ' ' '\n' | sort > ${FLAG_DIR}${FLAG_MKDIR}
 
 create-dirs: ${FLAG_DIR}${FLAG_MKDIR}
