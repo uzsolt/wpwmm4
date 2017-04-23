@@ -2,6 +2,11 @@ Web Page With Make and M4
 
 With wpwmm4 can create web pages with simply 'make' and 'm4'.
 
+Requirements:
+- make (BSD's make, use bmake package of your distro)
+- m4 (compatible with BSD's m4 and GNU's m4 too)
+- some knowledge about HTML and programming
+
 Features:
 - incremental build (with make)
 - automatically generated pages (similar webpage with different content)
