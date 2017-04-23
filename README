@@ -6,4 +6,4 @@ Features:
 - incremental build (with make)
 - automatically generated pages (similar webpage with different content)
 - layouts
-- expandable, programmable via m4 or can insert your code in any language
+- expandable, programmable via m4 or can insert output of any program
