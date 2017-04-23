@@ -22,11 +22,11 @@ INCL=${CAT} ${COMMON_DIR}${M4_DEFINITIONS}
 
 # Working Targets
 # Prepend the ${DEST_DIR}
-WTARGETS=${TARGETS:S/^/${DEST_DIR}/}
+WTARGETS=${TARGETS:S@^@${DEST_DIR}@}
 
 # Working Manual Targets
 # Prepend the ${DEST_DIR}
-WMTARGETS:=${TARGETS_MANUAL:S/^/${DEST_DIR}/}
+WMTARGETS:=${TARGETS_MANUAL:S@^@${DEST_DIR}@}
 
 # Target directories
 # Remove the filenames
