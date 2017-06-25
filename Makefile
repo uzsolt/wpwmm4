@@ -69,6 +69,9 @@ ${CT}: ${DEP}
 
 # Looping all ${VIRTUALS}
 .for CATEG in ${VIRTUALS}
+.ifndef VIRTUALOUT_${CATEG}
+.error VIRTUALOUT_${CATEG} variable is not defined!
+.endif
 VIRTUAL_FILES+=${VIRTUALOUT_${CATEG}:S/^/${DEST_DIR}${VIRTUALDIR_${CATEG}}/}
 VIRTUAL_FILES:=${VIRTUAL_FILES}
 VIRTUALREQRULE_${CATEG}?=C,.*,,
