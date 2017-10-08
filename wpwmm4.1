@@ -195,6 +195,33 @@ See the possible modifiers in the manual of
 .I make
 command!
 
+.SH HOOKS
+You can define hooks which run at specified event. You can use the
+.B ${.TARGET}
+macro in the definition because
+.I make
+will expand this variable when it needed (and not in definition).
+If you don't want view the command should prefix with @ sign.
+
+.IP HOOK_PRE_HTML
+It runs before generating a html file from a m4 file. Default value is
+.B ${MSG1} Building ${.TARGET}
+
+.IP HOOK_POST_HTML
+It runs after generating a html file from a m4 file. Default value is
+empty. This hook is useful for example if you want check the validity
+of HTML file (e.g. with tidy, see http://www.html-tidy.org/).
+
+.IP HOOK_PRE_VHTML
+It runs before generating a html file from virtual template (see
+.B VIRTUALS
+above). Default value is
+.B ${MSG1} Building virtual ${.TARGET}
+
+.IP HOOK_POST_VHTML
+It runs after generating a html file from virtual template. Default value
+is empty.
+
 .SH SPECIAL TARGETS
 You can define some special targets in your `config.mk'.
 .IP pre-everything

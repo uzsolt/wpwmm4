@@ -3,6 +3,12 @@ include config.mk
 COMMON_DIR?=/home/zsolt/progs/wpwmm4/
 INCLUDE_DIR?=include/
 FLAG_DIR?=flags/
+
+HOOK_PRE_HTML?=${MSG1} Building ${.TARGET}
+HOOK_POST_HTML?=
+HOOK_PRE_VHTML?=${MSG1} Building virtual ${.TARGET}
+HOOK_POST_VHTML?=
+
 M4_DEFINITIONS=00_defines.m4
 
 FLAG_MKDIR=create-dirs
@@ -59,12 +65,13 @@ REQUIREMENT_${CT}:=${DEP}
 ALLTARGET+=${CT}
 ALLTARGET:=${ALLTARGET}
 ${CT}: ${DEP}
-	${MSG1} Building ${.TARGET}
+	${HOOK_PRE_HTML}
 	@${INCL} ${.TARGET:S/${DEST_DIR}/${SRC_DIR}/:R}.m4 | \
 	  ${M4} ${M4_FLAGS} \
 	  -D_DIRECTORY=${.TARGET:S/${DEST_DIR}//:H} \
 	  -D_FILE=${.TARGET:S/${DEST_DIR}//:R} \
 	   > ${.TARGET}
+	${HOOK_POST_HTML}
 .endfor
 
 # Looping all ${VIRTUALS}
@@ -90,13 +97,14 @@ REQUIREMENT_${CT}:=${DEP}
 ALLTARGET+=${CT}
 ALLTARGET:=${ALLTARGET}
 ${CT}: ${DEP}
-	${MSG} Virtual ${VIRTUALTEMPLATE_${CATEG}}: ${.TARGET}
+	${HOOK_PRE_VHTML}
 	${MKDIR} ${VIRTUALOUT_${CATEG}:H:S/^/${DEST_DIR}${VIRTUALDIR_${CATEG}}/}
 	@${INCL} ${VIRT_DIR}${VIRTUALTEMPLATE_${CATEG}}.m4 | \
 	  ${M4} ${M4_FLAGS} \
 	  -D_DIRECTORY=${.TARGET:S/${DEST_DIR}//:H} \
 	  -D_FILE=${.TARGET:S/${DEST_DIR}//:C/.*\///:R} \
 	  > ${.TARGET}
+	${HOOK_POST_VHTML}
 .endfor
 .endfor
 # End of looping ${VIRTUALS}
