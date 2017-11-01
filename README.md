@@ -296,6 +296,21 @@ closes the `html` tag.
 ## FILES
 config.mk
 
+## EXAMPLES
+A generated example is my personal homepage (in hungarian): http://uzsolt.hu/ and
+its source file are at https://svn.uzsolt.hu/uzsolt.hu/wpwmm4-uzsolt.hu/ and a github
+mirror: https://github.com/uzsolt/wpwmm4-uzsolt.hu.
+
+It's a simple complicated example but it demonstrates the power of wpwmm4 :) It has
+
+* a multi-level menu (without JS)
+* galleries (inside "Képek"), with automatically-generated sprite (a big picture
+  in thumbnail, and shows only a part of this picutre - reduce the number of requests so
+  faster page loading)!
+* pdf items (inside "Oktatás") with "tags"
+* notes or blog entries (inside "Feljegyzések")
+* automatically generates LaTeX-samples (inside "Feljegyzések"/"LaTeX")
+
 ## SEE ALSO
 m4(1), make(1)
 
