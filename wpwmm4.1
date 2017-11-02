@@ -100,9 +100,6 @@ This directory contains the templates of virtual pages\.
 TARGETS
 The space\-seperated list of static files (virtual pages aren\'t included) what should create\. Don\'t include the \fB${DEST_DIR}\fR because it\'s included by the building system\. You can use directories of course\. Its automated requirement is the same file in \fB${SRC_DIR}\fR replacing \fIhtml\fR extension to \fIm4\fR extension\.
 .
-.P
-Tip: you can use \fB!=\fR assingment (run a shell command and its output will the value)\. In this case you shouldn\'t add every file, you can use the \fBfind\fR command (for example)\.
-.
 .TP
 TARGETS_MANUAL
 The space\-seperated list of static files what should create\. Don\'t include the \fB${DEST_DIR}\fR because it\'s included by the building system\. These targets don\'t have automatically generated requirement as the \fB${TARGETS}\fR above\.
@@ -302,6 +299,12 @@ Similar as \fB_PR_BODY\fR\.
 .TP
 _PR_ALL
 It prints \fB<!DOCTYPE html><html>\fR, calls \fB_PR_HEAD\fR and \fB_PR_BODY\fR and after it closes the \fBhtml\fR tag\.
+.
+.SH "TIPS"
+.
+.TP
+use of \fB!=\fR
+You can use \fB!=\fR in \fBTARGETS\fR assingment (run a shell command and its output will the value)\. In this case you shouldn\'t add every file, you can use the \fBfind\fR command (for example)\. Of course can use with other variables\.
 .
 .SH "FILES"
 config\.mk

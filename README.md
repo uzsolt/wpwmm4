@@ -76,11 +76,6 @@ use directories of course.
 Its automated requirement is the same file in `${SRC_DIR}` replacing
 *html* extension to *m4* extension.
 
-Tip: you can use `!=` 
-assingment (run a shell command and its output will the value). In
-this case you shouldn't add every file, you can use the `find` command
-(for example).
-
 * TARGETS_MANUAL:
 The space-seperated list of static files what should create.
 Don't include the `${DEST_DIR}`
@@ -292,6 +287,12 @@ Similar as `_PR_BODY`.
 * _PR_ALL:
 It prints `<!DOCTYPE html><html>`, calls `_PR_HEAD` and `_PR_BODY` and after it
 closes the `html` tag.
+
+## TIPS
+* use of `!=`:
+You can use `!=` in `TARGETS` assingment (run a shell command and its output
+will the value). In this case you shouldn't add every file, you can use the
+`find` command (for example). Of course can use with other variables.
 
 ## FILES
 config.mk
