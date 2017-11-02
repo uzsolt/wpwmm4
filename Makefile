@@ -136,6 +136,12 @@ ${.newline}
 show-config:
 	@echo "${VARIABLES}"
 
+show-hooks:
+.for hook in PRE_HTML POST_HTML PRE_VHTML POST_VHTML
+	@printf "HOOK_${hook} = "
+	@$(MAKE) -VHOOK_${hook}
+.endfor
+
 show-targets:
 	@echo ${ALLTARGET} | tr ' ' '\n'
 
@@ -156,5 +162,5 @@ pre-everything:
 clean-other:
 .endif
 
-.PHONY: all assets clean clean-other pre-everything show-config show-targets show-req show-virtuals virtual
+.PHONY: all assets clean clean-other pre-everything show-config show-hooks show-targets show-req show-virtuals virtual
 .MAIN: all

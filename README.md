@@ -235,6 +235,9 @@ There are some special targets to help debug your config.
 * show-config:
 Show the main variables.
 
+* show-hooks:
+Show the hooks.
+
 * show-targets:
 Show the targets (including virtual targets).
 
