@@ -1,4 +1,4 @@
-wpwmm4(1) -- Web Page With Make and M4
+wpwmm4(1) -- Web Page With Make and M4 - generate static web pages
 ====
 
 ## SYNOPSIS
