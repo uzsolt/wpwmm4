@@ -1,4 +1,0 @@
-Makefile linguist-language=Makefile
-*.sh linguist-language=Shell
-*.m4 linguist-language=M4
-*.css linguist-language=CSS
