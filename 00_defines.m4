@@ -34,7 +34,7 @@ m4_undivert(_DIVERT_BODY)m4_dnl
 </body>')
 m4_define(`_PR_ALL',`m4_divert(0)'m4_dnl
 <!DOCTYPE html>
-<html>
+<html lang="LANG">
 `_PR_HEAD
 _PR_BODY'
 </html>)
