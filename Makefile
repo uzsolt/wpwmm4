@@ -1,4 +1,5 @@
-include config.mk
+CONFIGMK=	config.mk
+include ${CONFIGMK}
 
 COMMON_DIR?=/home/zsolt/progs/wpwmm4/
 INCLUDE_DIR?=include/
@@ -47,7 +48,7 @@ TDIR:=${TDIR}
 
 all: ${FLAG_DIR}${FLAG_MKDIR} assets ${WTARGETS} ${WMTARGETS} virtual
 
-${FLAG_DIR}${FLAG_MKDIR}: config.mk ${MKDIR_REQ}
+${FLAG_DIR}${FLAG_MKDIR}: ${CONFIGMK} ${MKDIR_REQ}
 	${MSG} "Creating directory structure... (flagfile: ${.TARGET})"
 	@${MKDIR} ${FLAG_DIR}
 	@${MKDIR} ${TDIR:u}
@@ -64,13 +65,13 @@ DEP:=${GREQ} ${T:S/^/${SRC_DIR}/:S/html$/m4/} ${${T}_REQ}
 REQUIREMENT_${CT}:=${DEP}
 ALLTARGET+=${CT}
 ALLTARGET:=${ALLTARGET}
-${CT}: ${DEP}
+${CT}:	${CONFIGMK} ${DEP}
 	${HOOK_PRE_HTML}
 	@${INCL} ${.TARGET:S/${DEST_DIR}/${SRC_DIR}/:R}.m4 | \
-	  ${M4} ${M4_FLAGS} \
-	  -D_DIRECTORY=${.TARGET:S/${DEST_DIR}//:H} \
-	  -D_FILE=${.TARGET:S/${DEST_DIR}//:R} \
-	   > ${.TARGET}
+		${M4} ${M4_FLAGS} \
+		-D_DIRECTORY=${.TARGET:S/${DEST_DIR}//:H} \
+		-D_FILE=${.TARGET:S/${DEST_DIR}//:R} \
+		> ${.TARGET}
 	${HOOK_POST_HTML}
 .endfor
 
@@ -96,14 +97,14 @@ DEP:=${GREQ} \
 REQUIREMENT_${CT}:=${DEP}
 ALLTARGET+=${CT}
 ALLTARGET:=${ALLTARGET}
-${CT}: ${DEP}
+${CT}:	${CONFIGMK} ${DEP}
 	${HOOK_PRE_VHTML}
 	${MKDIR} ${VIRTUALOUT_${CATEG}:H:S/^/${DEST_DIR}${VIRTUALDIR_${CATEG}}/}
 	@${INCL} ${VIRT_DIR}${VIRTUALTEMPLATE_${CATEG}}.m4 | \
-	  ${M4} ${M4_FLAGS} \
-	  -D_DIRECTORY=${.TARGET:S/${DEST_DIR}//:H} \
-	  -D_FILE=${.TARGET:S/${DEST_DIR}//:C/.*\///:R} \
-	  > ${.TARGET}
+		${M4} ${M4_FLAGS} \
+		-D_DIRECTORY=${.TARGET:S/${DEST_DIR}//:H} \
+		-D_FILE=${.TARGET:S/${DEST_DIR}//:C/.*\///:R} \
+		> ${.TARGET}
 	${HOOK_POST_VHTML}
 .endfor
 .endfor
