@@ -1,7 +1,7 @@
 .\" generated with Ronn/v0.7.3
 .\" http://github.com/rtomayko/ronn/tree/0.7.3
 .
-.TH "WPWMM4" "1" "November 2017" "" ""
+.TH "WPWMM4" "1" "April 2018" "" ""
 .
 .SH "NAME"
 \fBwpwmm4\fR \- Web Page With Make and M4 \- generate static web pages
@@ -261,6 +261,14 @@ Show the targets with their requirements\. The target begins a line without any 
 show\-virtuals
 This target will show the defined virtuals and their configs\.
 .
+.SS "Generally usable variables in m4 files"
+There are some variables you can use and set in your \fBm4\fR files\.
+.
+.IP "\(bu" 4
+LANG The document\'s language\. It is used by \fB_PR_ALL\fR to create the main \fBhtml\fR tag with \fBlang\fR property\.
+.
+.IP "" 0
+.
 .SS "Built\-in commands"
 There are some commands which can help\. They are defined in \fB00_defines\.m4\fR\. Here is the list:
 .
@@ -302,7 +310,7 @@ Similar as \fB_PR_BODY\fR\.
 .
 .TP
 _PR_ALL
-It prints \fB<!DOCTYPE html><html>\fR, calls \fB_PR_HEAD\fR and \fB_PR_BODY\fR and after it closes the \fBhtml\fR tag\.
+It prints \fB<!DOCTYPE html><html lang="LANG">\fR, calls \fB_PR_HEAD\fR and \fB_PR_BODY\fR and after it closes the \fBhtml\fR tag\.
 .
 .SH "TIPS"
 .

@@ -249,6 +249,13 @@ latest requirement and the next target is an empty line inserted.
 * show-virtuals:
 This target will show the defined virtuals and their configs.
 
+### Generally usable variables in m4 files
+There are some variables you can use and set in your `m4` files.
+
+* LANG
+The document's language. It is used by `_PR_ALL` to create the main
+`html` tag with `lang` property.
+
 ### Built-in commands
 There are some commands which can help. They are defined in `00_defines.m4`.
 Here is the list:
@@ -288,7 +295,7 @@ It's a simple `undivert` macro.
 Similar as `_PR_BODY`.
 
 * _PR_ALL:
-It prints `<!DOCTYPE html><html>`, calls `_PR_HEAD` and `_PR_BODY` and after it
+It prints `<!DOCTYPE html><html lang="LANG">`, calls `_PR_HEAD` and `_PR_BODY` and after it
 closes the `html` tag.
 
 ## TIPS
