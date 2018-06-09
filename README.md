@@ -138,6 +138,13 @@ Produces `<a href=$url $options title=$title>text</a>`.
 * _META(parameters):
 Produces `<meta $parameters>`.
 
+* _OL(parameters):
+Produces ordered list `<ol><li>$1</li><li>$2</li>...</ol>`. You can
+specify the items in parameter list, separated by comma. Be careful
+about quoting! You can nest but in the second level should use double
+quote, on third level triple quote, and so on (to avoid macro expansion
+before the right time).
+
 * _STAG(tagname,parameters):
 Produces `<$tagname $parameters>`.
 
@@ -146,6 +153,9 @@ Produces `<$tagname $options>$content</$tagname>`.
 
 * _TITLE(title,options):
 Produces `<title $options>$title</title>`.
+
+* _UL(parameters):
+Same as `_OL`.
 
 ### Virtuals
 The virtual pages haven't source (m4) files.

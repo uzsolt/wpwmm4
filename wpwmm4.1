@@ -1,7 +1,7 @@
 .\" generated with Ronn/v0.7.3
 .\" http://github.com/rtomayko/ronn/tree/0.7.3
 .
-.TH "WPWMM4" "1" "April 2018" "" ""
+.TH "WPWMM4" "1" "June 2018" "" ""
 .
 .SH "NAME"
 \fBwpwmm4\fR \- Web Page With Make and M4 \- generate static web pages
@@ -167,6 +167,10 @@ _META(parameters)
 Produces \fB<meta $parameters>\fR\.
 .
 .TP
+_OL(parameters)
+Produces ordered list \fB<ol><li>$1</li><li>$2</li>\.\.\.</ol>\fR\. You can specify the items in parameter list, separated by comma\. Be careful about quoting! You can nest but in the second level should use double quote, on third level triple quote, and so on (to avoid macro expansion before the right time)\.
+.
+.TP
 _STAG(tagname,parameters)
 Produces \fB<$tagname $parameters>\fR\.
 .
@@ -177,6 +181,10 @@ Produces \fB<$tagname $options>$content</$tagname>\fR\.
 .TP
 _TITLE(title,options)
 Produces \fB<title $options>$title</title>\fR\.
+.
+.TP
+_UL(parameters)
+Same as \fB_OL\fR\.
 .
 .SS "Virtuals"
 The virtual pages haven\'t source (m4) files\. It\'s useful when you want create similar pages with similar content (for example listing of PDF files, listing images, \.\.\.)\.

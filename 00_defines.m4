@@ -1,5 +1,8 @@
 m4_divert(-1)
 
+m4_dnl Some general helpers
+m4_define(`_foreach',`m4_ifelse(m4_eval($#>2),1,`m4_pushdef(`$1',`$3')$2`'m4_popdef(`$1')`'m4_ifelse(m4_eval($#>3),1,`$0(`$1',`$2',m4_shift(m4_shift(m4_shift($@))))')')')
+
 m4_dnl HTML helpers
 m4_define(`_BODY',_TAG(body,`$1',`$2'))
 m4_define(`_CHARSET',_META(charset="`$1'"))
@@ -11,9 +14,11 @@ m4_define(`_DIVE',`</div>')
 m4_define(`_HEAD',_TAG(head,`$1',`$2'))
 m4_define(`_HREF',_TAG(a,`$2',`href="$1" $3 title="`$4'"'))
 m4_define(`_META',_STAG(meta,$*))
+m4_define(`_OL',`<ol>_foreach(`_X',_TAG(li,`_X'),$@)</ol>')
 m4_define(`_STAG',<$1 $2>)
 m4_define(`_TAG',<`$1' `$3'>`$2'</`$1'>)
 m4_define(`_TITLE',_TAG(title,`$1',`$2'))
+m4_define(`_UL',`<ul>_foreach(_X,_TAG(`li',_X),$@)</ul>')
 
 m4_dnl Built-in macros
 m4_define(`_SCRIPT',``m4_esyscmd'(scripts/$1)')
