@@ -1,359 +1,350 @@
-.\" generated with Ronn/v0.7.3
-.\" http://github.com/rtomayko/ronn/tree/0.7.3
-.
-.TH "WPWMM4" "1" "June 2018" "" ""
-.
-.SH "NAME"
-\fBwpwmm4\fR \- Web Page With Make and M4 \- generate static web pages
-.
-.SH "SYNOPSIS"
-Simple use the make command\. The Makefile is compatible with FreeBSD\'s and NetBSD\'s make\. On Linux should install \fIbmake\fR package\.
-.
-.SH "DESCRIPTION"
-With wpwmm4 can create static web pages from \fBm4\fR files\. The generating is done by \fBmake\fR\. You can use external scripts or commands\.
-.
-.SH "OVERVIEW"
-.
-.SS "Requirements"
-.
-.IP "\(bu" 4
-make (BSD\'s make, use bmake package of your distro)
-.
-.IP "\(bu" 4
-m4 (compatible with BSD\'s m4 and GNU\'s m4 too)
-.
-.IP "\(bu" 4
+.SH
+NAME
+.PP
+wpwmm4(1) \-\- Web Page With Make and M4 \- generate static web pages
+.SH
+SYNOPSIS
+.PP
+Simple use the make command. The Makefile is compatible with FreeBSD's and
+NetBSD's make. On Linux should install \f[I]bmake\f[] package.
+.SH
+DESCRIPTION
+.PP
+With wpwmm4 can create static web pages from \f[B]m4\f[] files. The
+generating is done by \f[B]make\f[]. You can use external scripts or
+commands.
+.SH
+OVERVIEW
+.SS
+Requirements
+.IP \[bu] 2
+make (BSD's make, use \f[I]bmake\f[] package of your distro)
+.IP \[bu] 2
+m4 (compatible with BSD's m4 and GNU's m4 too)
+.IP \[bu] 2
 some knowledge about HTML and programming
-.
-.IP "" 0
-.
-.SS "Features"
-.
-.IP "\(bu" 4
-incremental build (with make)
-.
-.IP "\(bu" 4
+.SS
+Features
+.IP \[bu] 2
+incremental build (with \f[I]make\f[])
+.IP \[bu] 2
 automatically generated pages (similar webpage with different content)
-.
-.IP "\(bu" 4
+.IP \[bu] 2
 layouts
-.
-.IP "\(bu" 4
-expandable, programmable via m4 or can insert output of any program
-.
-.IP "" 0
-.
-.SS "Nutshell"
-.
-.IP "\(bu" 4
-convert items of \fB${TARGETS}\fR: \fB${SRC_DIR}/*\.m4\fR \-> \fB${DEST_DIR}/*\.html\fR
-.
-.IP "\(bu" 4
-create items of \fB${TARGETS_MANUAL}\fR: use own programs, scripts
-.
-.IP "\(bu" 4
-create items of \fB${VIRTUALS}\fR: use templates from \fB${VIRT_DIR}\fR
-.
-.IP "\(bu" 4
-can call scripts from \fIscripts/\fR directory and use their outputs
-.
-.IP "" 0
-.
-.SH "USAGE"
-You should create a \fBconfig\.mk\fR file in a directory and set the following variables inside this file\. You can use \fI\.include\fR in your \fBconfig\.mk\fR of course\.
-.
-.SS "Basic variables"
-.
-.TP
-COMMON_DIR
-Where the \fB00_defines\.m4\fR is\. Commonly is the same directory as \fBMakefile\fR\.
-.
-.TP
-INCLUDE_DIR
-The directory where the user\-based includes \fBm4\fR are\. It\'s relative to the main source directory\.
-.
-.TP
-SRC_DIR
-This variable points to the source directory where the source files (usually \fB*\.m4\fR) are\. It can contain subdirectories\.
-.
-.TP
-ASSETS_DIR
-In this directory are the static files (\fB*\.css\fR, \fB*\.js\fR, etc\.)\.
-.
-.TP
-DEST_DIR
-The compiled (created) HTML\'s place\. The subdirectory tree of \fBSRC_DIR\fR is created in this directory by \fBmake\fR\.
-.
-.TP
-FLAG_DIR
-The directory where the flags are\. Flags are simple files which store information about building\. There is only one flag: \fB${FLAG_MKDIR}\fR which signs the time when the directory structure is created in \fB${DEST_DIR}\fR and stores the list of created directories\. You can add plus depend via \fB${MKDIR_REQ}\fR \- so can re\-build the directory structure after this file changed\.
-.
-.TP
-LAYOUT_DIR
-Here are the layouts\.
-.
-.TP
-VIRT_DIR
-This directory contains the templates of virtual pages\.
-.
-.TP
-TARGETS
-The space\-seperated list of static files (virtual pages aren\'t included) what should create\. Don\'t include the \fB${DEST_DIR}\fR because it\'s included by the building system\. You can use directories of course\. Its automated requirement is the same file in \fB${SRC_DIR}\fR replacing \fIhtml\fR extension to \fIm4\fR extension\.
-.
-.TP
-TARGETS_MANUAL
-The space\-seperated list of static files what should create\. Don\'t include the \fB${DEST_DIR}\fR because it\'s included by the building system\. These targets don\'t have automatically generated requirement as the \fB${TARGETS}\fR above\.
-.
-.TP
-GREQ
-Global requirement\. It\'s needed by \fIevery\fR target\. Default is empty\.
-.
-.TP
-foo\.html_REQ
-Additional requirements of \fBfoo\.html\fR which is included in \fB${TARGETS}\fR variable (see above)\. The \fBfoo\.m4\fR is automatically added\. These variables are optional\.
-.
-.TP
-M4
-The \fBm4\fR command\. In most cases can set simply to \fBm4\fR (in \fIPATH\fR)\. This variable is optional, default value is \fBm4\fR\.
-.
-.TP
-M4_PARAMS
-Parameters of \fBm4\fR command\. The default value is \fI\-P \-I include \-D_SRC_DIR=${SRC_DIR}\fR\. Please note that option \fI\-P\fR is neccessary because we use builtin macros with \fBm4_\fR prefix\.
-.
-.SS "Variables inside sources"
-The following variables are created dynamically during building and you can use them in your m4 sources and templates\.
-.
-.TP
-_DIRECTORY
-The target directory inside \fB${DEST_DIR}\fR (without \fB${DEST_DIR}\fR prefix)\. The root of \fB${DEST_DIR}\fR is "\." (dot)\.
-.
-.TP
-_FILE
-The target filename which is under generating (without any extension)\.
-.
-.SS "Helpers"
-The system ships some helpers which you can use in your files\. They are defined in \fB00_defines\.m4\fR\. Here is the list of helpers:
-.
-.TP
-_BODY(options,content)
-Produces \fB<body $options>$content</body>\fR\.
-.
-.TP
-_CHARSET(charset)
-Produces \fB<meta charset="$charset">\fR\.
-.
-.TP
-_CLASS(class1,class2,\.\.\.)
-Produces \fBclass="$class1 $class2 \.\.\."\fR\.
-.
-.TP
-_CSS(cssfile)
-Produces \fB<link rel="stylesheet" href=$cssfile>\fR\.
-.
-.TP
-_DIV(class,content,options)
-Produces \fB<div class=$class $options>$content</div>\fR\.
-.
-.TP
-_HEAD(options,content)
-Produces \fB<head $options>$content</head>\fR\.
-.
-.TP
-_HREF(url,text,options,title)
-Produces \fB<a href=$url $options title=$title>text</a>\fR\.
-.
-.TP
-_META(parameters)
-Produces \fB<meta $parameters>\fR\.
-.
-.TP
-_OL(parameters)
-Produces ordered list \fB<ol><li>$1</li><li>$2</li>\.\.\.</ol>\fR\. You can specify the items in parameter list, separated by comma\. Be careful about quoting! You can nest but in the second level should use double quote, on third level triple quote, and so on (to avoid macro expansion before the right time)\.
-.
-.TP
-_STAG(tagname,parameters)
-Produces \fB<$tagname $parameters>\fR\.
-.
-.TP
-_TAG(tagname,content,options)
-Produces \fB<$tagname $options>$content</$tagname>\fR\.
-.
-.TP
-_TITLE(title,options)
-Produces \fB<title $options>$title</title>\fR\.
-.
-.TP
-_UL(parameters)
-Same as \fB_OL\fR\.
-.
-.SS "Virtuals"
-The virtual pages haven\'t source (m4) files\. It\'s useful when you want create similar pages with similar content (for example listing of PDF files, listing images, \.\.\.)\.
-.
-.P
-You should create groups of \fBVIRTUALS\fR (you can add only ONE virtual to a group)\. You can do it with the following variables:
-.
-.TP
-VIRTUALS
-Contains the name of the categories\. E\.g\. \fBVIRTUALS=cat1 cat2\fR\. The categories is separated by a space character\.
-.
-.TP
-VIRTUALTEMPLATE_*
-You can set (following the example above) \fBVIRTUALTEMPLATE_cat1\fR and \fBVIRTUALTEMPLATE_cat2\fR variables\. Their values say which template should use to generate the virtual pages\. The templates are stored in \fBVIRT_DIR\fR directory\. In your template files you can use dynamically created variables, see \fIVariables inside sources\fR section below\.
-.
-.TP
-VIRTUALDIR_*
-This variable points to the target directory where the generated pages should appear\. You have to set every category, so you have to set \fBVIRTUALDIR_cat1\fR and \fBVIRTUALDIR_cat2\fR too\.
-.
-.TP
-VIRTUALOUT_*
-The output filenames\. For example \fBVIRTUAL_cat1=foo1\.html foo2\.html\fR\. In this case you will have \fB${VIRTUALDIR_cat1}/foo1\.html\fR and \fB${VIRTUALDIR_cat1}/foo2\.html\fR\.
-.
-.TP
-VIRTUALREQ_*
-Additional requirements to the virtual category\. The \fB${VIRTUALTEMPLATE_*}\.m4\fR is added automatically\.
-.
-.TP
-VIRTUALREQRULE\fI*\fR
-A simple transformation rule to define a requirement by file\. The transformation rule is applied on the elements of \fB${VIRTUALOUT_*}\fR variables\. For example \fBVIRTUALREQ_foo=C,\.html,\.dat,\fR rule will transform every \fB\.html\fR extension into \fB\.dat\fR extension: the \fB${DESTDIR}/foodir/bar\.html\fR will depend on \fBfoodir/bar\.dat\fR file\. Please note that the value of `${VIRTUALDIR*} isn\'t included automatically so if you want it you should do it! Be careful about recursive dependencies! See the possible modifiers in the manual of _make(1)!
-.
-.SS "Hooks"
-You can define hooks which run at specified event\. You can use the \fB${\.TARGET}\fR macro in the definition because \fBmake\fR will expand this variable when it needed (and not in definition)\. If you don\'t want view the command should prefix with \fI@\fR sign\.
-.
-.TP
-HOOK_PRE_HTML
-It runs before generating a html file from a m4 file\. Default value is \fB${MSG1} Building ${\.TARGET}\fR\.
-.
-.TP
-HOOK_POST_HTML
-It runs after generating a html file from a m4 file\. Default value is empty\. This hook is useful for example if you want check the validity of HTML file (e\.g\. with tidy, see http://www\.html\-tidy\.org/)\.
-.
-.TP
-HOOK_PRE_VHTML
-It runs before generating a html file from virtual template (see \fIVirtuals\fR above)\. The default value is \fB${MSG1} Building virtual ${\.TARGET}\fR\.
-.
-.TP
-HOOK_POST_VHTML
-It runs after generating a html file from virtual template\. Default value is empty\.
-.
-.SS "Special targets"
-You can define some special targets in your `config\.mk\'\.
-.
-.TP
-pre\-everything
-This target will execute \fIbefore\fR any other target (except \fIclean\fR of course)\. For example you can run a script which creates some files, even a file what is used in wpwmm4\. With this target can emulate the tags feature (using \fIVirtuals\fR feature)\. Another idea is automatically generate the \fB${TARGETS}\fR variable (with the \fBfind\fR command)\.
-.
-.TP
-clean\-other
-When you run \fIclean\fR target (which deletes everything in \fB${DEST_DIR}\fR directory) it will run too\.
-.
-.SS "Information targets"
-There are some special targets to help debug your config\.
-.
-.TP
-show\-config
-Show the main variables\.
-.
-.TP
-show\-hooks
-Show the hooks\.
-.
-.TP
-show\-targets
-Show the targets (including virtual targets)\.
-.
-.TP
-show\-req
-Show the targets with their requirements\. The target begins a line without any whitespace, the requirements are prefixed by two spaces\. Between the latest requirement and the next target is an empty line inserted\.
-.
-.TP
-show\-virtuals
-This target will show the defined virtuals and their configs\.
-.
-.SS "Generally usable variables in m4 files"
-There are some variables you can use and set in your \fBm4\fR files\.
-.
-.IP "\(bu" 4
-LANG The document\'s language\. It is used by \fB_PR_ALL\fR to create the main \fBhtml\fR tag with \fBlang\fR property\.
-.
-.IP "" 0
-.
-.SS "Built\-in commands"
-There are some commands which can help\. They are defined in \fB00_defines\.m4\fR\. Here is the list:
-.
-.TP
-_SCRIPT(\fBcommand\fR)
-Executes \fBcommand\fR and paste its output ( \fBstdout\fR and \fBstderr\fR too)\. It uses the \fBm4\fR\'s \fBesyscmd\fR macro\.
-.
-.TP
-_LAYOUT(\fBlayout\fR,\fBVarName1\fR,\fBVar1\fR,\fBVarName2\fR,\fBVar2\fR,\.\.\.)
-Load the \fBlayout\fR layout\. It uses \fBm4\fR\'s \fBinclude\fR macro\. You can define the web page layout at the beginning of source file\. This command will assign the variables \fBVarName1\fR, \fBVarName2\fR,\.\.\. with values \fBVar1\fR, \fBVar2\fR\.
-.
-.TP
-_LAYOUT_PRE(\fBpre\fR)
-The \fBpre\fR is printed before the included content\.
-.
-.TP
-_LAYOUT_POST(\fBpost\fR)
-The \fBpost\fR is printed after the included content\.
-.
-.TP
-_INCL(\fBfile\fR)
-Includes the \fBfile\fR\. The \fBdivert\fR is \-1 so this macro doesn\'t produce any output\. It\'s ideal to load a file with macro definitions\.
-.
-.TP
-_2_BODY(\fB*\fR)
-The \fB*\fR will into the body tag\. This macro collects all inputs and doesn\'t print anything\. With \fB_PR_BODY\fR can print (and clear) the content\.
-.
-.TP
-_2_HEAD(\fB*\fR)
-Same as \fB_2_BODY\fR but it collects into head tag\.
-.
-.TP
-_PR_BODY
-Print and reset the content collected by \fB_2_BODY\fR\. It\'s a simple \fBundivert\fR macro\.
-.
-.TP
-_PR_HEAD
-Similar as \fB_PR_BODY\fR\.
-.
-.TP
-_PR_ALL
-It prints \fB<!DOCTYPE html><html lang="LANG">\fR, calls \fB_PR_HEAD\fR and \fB_PR_BODY\fR and after it closes the \fBhtml\fR tag\.
-.
-.SH "TIPS"
-.
-.TP
-use of \fB!=\fR
-You can use \fB!=\fR in \fBTARGETS\fR assingment (run a shell command and its output will the value)\. In this case you shouldn\'t add every file, you can use the \fBfind\fR command (for example)\. Of course can use with other variables\.
-.
-.SH "FILES"
-config\.mk
-.
-.SH "EXAMPLES"
-A generated example is my personal homepage (in hungarian): http://uzsolt\.hu/ and its source file are at https://svn\.uzsolt\.hu/uzsolt\.hu/wpwmm4\-uzsolt\.hu/ and a github mirror: https://github\.com/uzsolt/wpwmm4\-uzsolt\.hu\.
-.
-.P
-It\'s a simple complicated example but it demonstrates the power of wpwmm4 :) It has
-.
-.IP "\(bu" 4
+.IP \[bu] 2
+expandable, programmable via \f[I]m4\f[] or can insert output of any
+program
+.SS
+Nutshell
+.IP \[bu] 2
+convert items of \f[B]${TARGETS}\f[]: \f[B]${SRC_DIR}/*.m4\f[] \->
+\f[B]${DEST_DIR}/*.html\f[]
+.IP \[bu] 2
+create items of \f[B]${TARGETS_MANUAL}\f[]: use own programs, scripts
+.IP \[bu] 2
+create items of \f[B]${VIRTUALS}\f[]: use templates from
+\f[B]${VIRT_DIR}\f[]
+.IP \[bu] 2
+can call scripts from \f[I]scripts/\f[] directory and use their outputs
+.SH
+USAGE
+.PP
+You should create a \f[B]config.mk\f[] file in a directory and set the
+following variables inside this file. You can use \f[I].include\f[] in your
+\f[B]config.mk\f[] of course.
+.SS
+Basic variables
+.IP \[bu] 2
+\f[I]COMMON_DIR\f[]: Where the \f[B]00_defines.m4\f[] is. Commonly is the
+same directory as \f[B]Makefile\f[].
+.IP \[bu] 2
+\f[I]INCLUDE_DIR\f[]: The directory where the user\-based includes
+\f[B]m4\f[] are. It's relative to the main source directory.
+.IP \[bu] 2
+\f[I]SRC_DIR\f[]: This variable points to the source directory where the
+source files (usually \f[B]*.m4\f[]) are. It can contain subdirectories.
+.IP \[bu] 2
+\f[I]ASSETS_DIR\f[]: In this directory are the static files
+(*\f[B].css\f[], *\f[B].js\f[], etc.).
+.IP \[bu] 2
+\f[I]DEST_DIR\f[]: The compiled (created) HTML's place. The subdirectory
+tree of \f[B]${SRC_DIR}\f[] is created in this directory by \f[I]make\f[].
+.IP \[bu] 2
+\f[I]FLAG_DIR\f[]: The directory where the flags are. Flags are simple
+files which store information about building. There is only one flag:
+\f[B]${FLAG_MKDIR}\f[] which signs the time when the directory structure is
+created in \f[B]${DEST_DIR}\f[] and stores the list of created directories.
+You can add plus depend via \f[B]${MKDIR_REQ}\f[] \- so can re\-build the
+directory structure after this file changed.
+.IP \[bu] 2
+\f[I]LAYOUT_DIR\f[]: Here are the layouts.
+.IP \[bu] 2
+\f[I]VIRT_DIR\f[]: This directory contains the templates of virtual pages.
+.IP \[bu] 2
+\f[I]TARGETS\f[]: The space\-seperated list of static files (virtual pages
+aren't included) what should create. Don't include the \f[B]${DEST_DIR}\f[]
+because it's included by the building system. You can use directories of
+course. Its automated requirement is the same file in \f[B]${SRC_DIR}\f[]
+replacing \f[I]html\f[] extension to \f[I]m4\f[] extension.
+.IP \[bu] 2
+\f[I]TARGETS_MANUAL\f[]: The space\-seperated list of static files what
+should create. Don't include the \f[B]${DEST_DIR}\f[] because it's included
+by the building system. These targets don't have automatically generated
+requirement as the \f[B]${TARGETS}\f[] above.
+.IP \[bu] 2
+\f[I]GREQ\f[]: Global requirement. It's needed by \f[I]every\f[] target.
+Default is empty.
+.IP \[bu] 2
+\f[I]foo.html_REQ\f[]: Additional requirements of \f[B]foo.html\f[] which
+is included in \f[B]${TARGETS}\f[] variable (see above). The
+\f[B]foo.m4\f[] is automatically added. These variables are optional.
+.IP \[bu] 2
+\f[I]M4\f[]: The \f[I]m4\f[] command. In most cases can set simply to
+\f[I]m4\f[] (in \f[I]PATH\f[]). This variable is optional, default value is
+\f[I]m4\f[]
+.IP \[bu] 2
+\f[I]M4_PARAMS\f[]: Parameters of \f[B]m4\f[] command. The default value is
+\f[B]\-P \-I include \-D_SRC_DIR=${SRC_DIR}\f[]. Please note that option
+\f[I]\-P\f[] is neccessary because we use builtin macros with \f[B]m4_\f[]
+prefix.
+.SS
+Variables inside sources
+.PP
+The following variables are created dynamically during building and you can
+use them in your \f[I]m4\f[] sources and templates.
+.IP \[bu] 2
+\f[I]_DIRECTORY\f[]: The target directory inside \f[B]${DEST_DIR}\f[]
+(without \f[B]${DEST_DIR}\f[] prefix). The root of \f[B]${DEST_DIR}\f[] is
+"." (dot).
+.IP \[bu] 2
+\f[I]_FILE\f[]: The target filename which is under generating (without any
+extension).
+.SS
+Helpers
+.PP
+The system ships some helpers which you can use in your files. They are
+defined in \f[B]00_defines.m4\f[]. Here is the list of helpers:
+.IP \[bu] 2
+\f[I]_BODY(options,content)\f[]: Produces \f[B]<body
+$options>$content</body>\f[].
+.IP \[bu] 2
+\f[I]_CHARSET(charset)\f[]: Produces \f[B]<meta charset="$charset">\f[].
+.IP \[bu] 2
+\f[I]_CLASS(class1,class2,...)\f[]: Produces \f[B]class="$class1 $class2
+..."\f[].
+.IP \[bu] 2
+\f[I]_CSS(cssfile)\f[]: Produces \f[B]<link rel="stylesheet"
+href=$cssfile>\f[].
+.IP \[bu] 2
+\f[I]_DIV(class,content,options)\f[]: Produces \f[B]<div class=$class
+$options>$content</div>\f[].
+.IP \[bu] 2
+\f[I]_HEAD(options,content)\f[]: Produces \f[B]<head
+$options>$content</head>\f[].
+.IP \[bu] 2
+\f[I]_HREF(url,text,options,title)\f[]: Produces \f[B]<a href=$url $options
+title=$title>text</a>\f[].
+.IP \[bu] 2
+\f[I]_META(parameters)\f[]: Produces \f[B]<meta $parameters>\f[].
+.IP \[bu] 2
+\f[I]_OL(parameters)\f[]: Produces ordered list
+\f[B]<ol><li>$1</li><li>$2</li>...</ol>\f[]. You can specify the items in
+parameter list, separated by comma. Be careful about quoting! You can nest
+but in the second level should use double quote, on third level triple
+quote, and so on (to avoid macro expansion before the right time).
+.IP \[bu] 2
+\f[I]_STAG(tagname,parameters)\f[]: Produces \f[B]<$tagname
+$parameters>\f[].
+.IP \[bu] 2
+\f[I]_TAG(tagname,content,options)\f[]: Produces \f[B]<$tagname
+$options>$content</$tagname>\f[].
+.IP \[bu] 2
+\f[I]_TITLE(title,options)\f[]: Produces \f[B]<title $options>$title\f[].
+.IP \[bu] 2
+\f[I]_UL(parameters)\f[]: Same as \f[B]_OL\f[].
+.SS
+Virtuals
+.PP
+The virtual pages haven't source (m4) files. It's useful when you want
+create similar pages with similar content (for example listing of PDF
+files, listing images, ...).
+.PP
+You should create groups of \f[B]VIRTUALS\f[] (you can add only ONE virtual
+to a group). You can do it with the following variables:
+.IP \[bu] 2
+\f[I]VIRTUALS\f[]: Contains the name of the categories. E.g.
+\f[B]VIRTUALS=cat1 cat2\f[]. The categories is separated by a space
+character.
+.IP \[bu] 2
+\f[I]VIRTUALTEMPLATE_*\f[]: You can set (following the example above)
+\f[B]VIRTUALTEMPLATE_cat1\f[] and \f[B]VIRTUALTEMPLATE_cat2\f[] variables.
+Their values say which template should use to generate the virtual pages.
+The templates are stored in \f[B]VIRT_DIR\f[] directory. In your template
+files you can use dynamically created variables, see [Variables inside
+sources][] section below.
+.IP \[bu] 2
+\f[I]VIRTUALDIR_*\f[]: This variable points to the target directory where
+the generated pages should appear. You have to set every category, so you
+have to set \f[B]VIRTUALDIR_cat1\f[] and \f[B]VIRTUALDIR_cat2\f[] too.
+.IP \[bu] 2
+\f[I]VIRTUALOUT_*\f[]: The output filenames. For example
+\f[B]VIRTUAL_cat1=foo1.html foo2.html\f[]. In this case you will have
+\f[B]${VIRTUALDIR_cat1}/foo1.html\f[] and
+\f[B]${VIRTUALDIR_cat1}/foo2.html\f[].
+.IP \[bu] 2
+\f[I]VIRTUALREQ_*\f[]: Additional requirements to the virtual category. The
+\f[B]${VIRTUALTEMPLATE_*}.m4\f[] is added automatically.
+.IP \[bu] 2
+\f[I]VIRTUALREQRULE_*\f[]: A simple transformation rule to define a
+requirement by file. The transformation rule is applied on the elements of
+\f[B]${VIRTUALOUT_*}\f[] variables. For example
+\f[B]VIRTUALREQ_foo=C,.html,.dat,\f[] rule will transform every
+\f[B].html\f[] extension into \f[B].dat\f[] extension: the
+\f[B]${DESTDIR}/foodir/bar.html\f[] will depend on \f[B]foodir/bar.dat\f[]
+file. Please note that the value of **${VIRTUALDIR_*} isn't included
+automatically so if you want it you should do it! Be careful about
+recursive dependencies! See the possible modifiers in the manual of
+\f[B]make(1)\f[]!
+.SS
+Hooks
+.PP
+You can define hooks which run at specified event. You can use the
+\f[B]${.TARGET}\f[] macro in the definition because \f[I]make\f[] will
+expand this variable when it needed (and not in definition). If you don't
+want view the command should prefix with \f[I]@\f[] sign.
+.IP \[bu] 2
+\f[I]HOOK_PRE_HTML\f[]: It runs before generating a html file from a
+\f[I]m4\f[] file. Default value is \f[B]${MSG1} Building ${.TARGET}\f[].
+.IP \[bu] 2
+\f[I]HOOK_POST_HTML\f[]: It runs after generating a html file from a
+\f[I]m4\f[] file. Default value is empty. This hook is useful for example
+if you want check the validity of HTML file (e.g. with tidy, see
+http://www.html\-tidy.org/).
+.IP \[bu] 2
+\f[I]HOOK_PRE_VHTML\f[]: It runs before generating a html file from virtual
+template (see [Virtuals][] above). The default value is \f[B]${MSG1}
+Building virtual ${.TARGET}\f[].
+.IP \[bu] 2
+\f[I]HOOK_POST_VHTML\f[]: It runs after generating a html file from virtual
+template. Default value is empty.
+.SS
+Special targets
+.PP
+You can define some special targets in your **config.mk'.
+.IP \[bu] 2
+\f[I]pre\-everything\f[]: This target will execute \f[I]before\f[] any
+other target (except \f[I]clean\f[] of course). For example you can run a
+script which creates some files, even a file what is used in wpwmm4. With
+this target can emulate the tags feature (using [Virtuals][] feature).
+Another idea is automatically generate the \f[B]${TARGETS}\f[] variable
+(with the \f[B]find\f[] command).
+.IP \[bu] 2
+\f[I]clean\-other\f[]: When you run \f[I]clean\f[] target (which deletes
+everything in \f[B]${DEST_DIR}\f[] directory) it will run too.
+.SS
+Information targets
+.PP
+There are some special targets to help debug your config.
+.IP \[bu] 2
+\f[I]show\-config\f[]: Show the main variables.
+.IP \[bu] 2
+\f[I]show\-hooks\f[]: Show the hooks.
+.IP \[bu] 2
+\f[I]show\-targets\f[]: Show the targets (including virtual targets).
+.IP \[bu] 2
+\f[I]show\-req\f[]: Show the targets with their requirements. The target
+begins a line without any whitespace, the requirements are prefixed by two
+spaces. Between the latest requirement and the next target is an empty line
+inserted.
+.IP \[bu] 2
+\f[I]show\-virtuals\f[]: This target will show the defined virtuals and
+their configs.
+.SS
+Generally usable variables in m4 files
+.PP
+There are some variables you can use and set in your \f[B]m4\f[] files.
+.IP \[bu] 2
+\f[I]LANG\f[]: The document's language. It is used by \f[B]_PR_ALL\f[] to
+create the main \f[B]html\f[] tag with \f[B]lang\f[] property.
+.SS
+Built\-in commands
+.PP
+There are some commands which can help. They are defined in
+\f[B]00_defines.m4\f[]. Here is the list:
+.IP \[bu] 2
+\f[I]_SCRIPT(command)\f[]: Executes \f[B]$command\f[] and paste its output
+( \f[B]stdout\f[] and \f[B]stderr\f[] too). It uses the \f[I]m4\f[]'s
+\f[B]esyscmd\f[] macro.
+.IP \[bu] 2
+\f[I]_LAYOUT(layout,VarName1,Var1,VarName2,Var2,...)\f[]: Load the
+\f[B]$layout\f[] layout. It uses \f[I]m4\f[]'s \f[I]include\f[] macro. You
+can define the web page layout at the beginning of source file. This
+command will assign the variables \f[B]VarName1\f[], \f[B]VarName2\f[],...
+with values \f[B]Var1\f[], \f[B]Var2\f[].
+.IP \[bu] 2
+\f[I]_LAYOUT_PRE(pre)\f[]: The \f[B]$pre\f[] is printed before the included
+content.
+.IP \[bu] 2
+\f[I]_LAYOUT_POST(post)\f[]: The \f[B]$post\f[] is printed after the
+included content.
+.IP \[bu] 2
+\f[I]_INCL(file)\f[]: Includes the \f[B]$file\f[]. The \f[I]divert\f[] is
+\-1 so this macro doesn't produce any output. It's ideal to load a file
+with macro definitions.
+.IP \[bu] 2
+\f[I]_2_BODY(text)\f[]: The \f[B]$text\f[] will into the body tag. This
+macro collects all inputs and doesn't print anything. With
+\f[I]_PR_BODY\f[] can print (and clear) the content.
+.IP \[bu] 2
+\f[I]_2_HEAD(text)\f[]: Same as \f[B]_2_BODY\f[] but it collects into
+\f[B]head\f[] tag.
+.IP \[bu] 2
+\f[I]_PR_BODY\f[]: Print and reset the content collected by
+\f[B]_2_BODY\f[]. It's a simple \f[I]undivert\f[] macro.
+.IP \[bu] 2
+\f[I]_PR_HEAD\f[]: Similar as \f[B]_PR_BODY\f[].
+.IP \[bu] 2
+\f[I]_PR_ALL\f[]: It prints \f[B]<!DOCTYPE html><html lang="LANG">\f[],
+calls \f[B]_PR_HEAD\f[] and \f[B]_PR_BODY\f[] and after it closes the
+\f[B]html\f[] tag.
+.SH
+TIPS
+.IP \[bu] 2
+use of \f[B]!=\f[]: You can use \f[B]!=\f[] in \f[B]TARGETS\f[] assingment
+(run a shell command and its output will the value). In this case you
+shouldn't add every file, you can use the \f[B]find\f[] command (for
+example). Of course can use with other variables.
+.SH
+FILES
+.PP
+config.mk
+.SH
+EXAMPLES
+.PP
+A generated example is my personal homepage (in hungarian):
+http://uzsolt.hu/ and its source file are at
+https://svn.uzsolt.hu/uzsolt.hu/wpwmm4\-uzsolt.hu/ and a github mirror:
+https://github.com/uzsolt/wpwmm4\-uzsolt.hu.
+.PP
+It's a simple complicated example but it demonstrates the power of wpwmm4
+:) It has
+.IP \[bu] 2
 a multi\-level menu (without JS)
-.
-.IP "\(bu" 4
-galleries (inside "Képek"), with automatically\-generated sprite (a big picture in thumbnail, and shows only a part of this picutre \- reduce the number of requests so faster page loading)!
-.
-.IP "\(bu" 4
+.IP \[bu] 2
+galleries (inside "Képek"), with automatically\-generated sprite (a big
+picture in thumbnail, and shows only a part of this picutre \- reduce the
+number of requests so faster page loading)!
+.IP \[bu] 2
 pdf items (inside "Oktatás") with "tags"
-.
-.IP "\(bu" 4
+.IP \[bu] 2
 notes or blog entries (inside "Feljegyzések")
-.
-.IP "\(bu" 4
+.IP \[bu] 2
 automatically generates LaTeX\-samples (inside "Feljegyzések"/"LaTeX")
-.
-.IP "" 0
-.
-.SH "SEE ALSO"
+.SH
+SEE ALSO
+.PP
 m4(1), make(1)
-.
-.SH "AUTHOR"
-Zsolt Udvari (uzsolt@uzsolt\.hu, www\.uzsolt\.hu)
+.SH
+AUTHOR
+.PP
+Zsolt Udvari (uzsolt@uzsolt.hu, www.uzsolt.hu)

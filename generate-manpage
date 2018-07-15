@@ -1,0 +1,3 @@
+#!/bin/sh
+
+cmark -t man --width 75 README.md > wpwmm4.1
