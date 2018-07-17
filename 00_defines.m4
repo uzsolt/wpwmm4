@@ -2,6 +2,7 @@ m4_divert(-1)
 
 m4_dnl Some general helpers
 m4_define(`_foreach',`m4_ifelse(m4_eval($#>2),1,`m4_pushdef(`$1',`$3')$2`'m4_popdef(`$1')`'m4_ifelse(m4_eval($#>3),1,`$0(`$1',`$2',m4_shift(m4_shift(m4_shift($@))))')')')
+m4_changecom()
 
 m4_dnl HTML helpers
 m4_define(`_BODY',_TAG(body,`$1',`$2'))
