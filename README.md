@@ -142,9 +142,7 @@ Produces **\<meta $parameters\>**.
 * _\_OL(parameters)_:
 Produces ordered list **\<ol\>\<li\>$1\</li\>\<li\>$2\</li\>...\</ol\>**. You can
 specify the items in parameter list, separated by comma. Be careful
-about quoting! You can nest but in the second level should use double
-quote, on third level triple quote, and so on (to avoid macro expansion
-before the right time).
+about quoting!
 
 * _\_STAG(tagname,parameters)_:
 Produces **\<$tagname $parameters\>**.
