@@ -112,6 +112,7 @@ ${CT}:	${CONFIGMK} ${DEP}
 
 assets::
 .ifdef ASSETS_DIR
+	$(MSG) Copy ${ASSETS_DIR} to ${DEST_DIR}
 	@cp -r ${ASSETS_DIR} ${DEST_DIR}
 .endif
 
