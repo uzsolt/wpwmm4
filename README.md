@@ -50,40 +50,43 @@ This variable points to the source directory where the source files
 * _ASSETS\_DIR_:
 In this directory are the static files (***.css**, ***.js**, etc.).
 
+* _ASSETS\_CP_:
+    The command who will copy the **${ASSETS_DIR}**. Default is **@cp -r**.
+
 * _DEST\_DIR_:
-The compiled (created) HTML's place. The subdirectory tree of
-**${SRC_DIR}** is created in this directory by _make_.
+    The compiled (created) HTML's place. The subdirectory tree of
+    **${SRC_DIR}** is created in this directory by _make_.
 
 * _FLAG\_DIR_:
-The directory where the flags are. Flags are simple files which
-store information about building. There is only one flag:
-**${FLAG_MKDIR}** which signs the time when the directory structure is
-created in **${DEST_DIR}** and stores the list of created directories.
-You can add plus depend via **${MKDIR_REQ}** - so can re-build the
-directory structure after this file changed.
+    The directory where the flags are. Flags are simple files which
+    store information about building. There is only one flag:
+    **${FLAG_MKDIR}** which signs the time when the directory structure is
+    created in **${DEST_DIR}** and stores the list of created directories.
+    You can add plus depend via **${MKDIR_REQ}** - so can re-build the
+    directory structure after this file changed.
 
 * _LAYOUT\_DIR_:
-Here are the layouts.
+    Here are the layouts.
 
 * _VIRT\_DIR_:
-This directory contains the templates of virtual pages.
+    This directory contains the templates of virtual pages.
 
 * _TARGETS_:
-The space-seperated list of static files (virtual pages aren't included)
-what should create. Don't include the **${DEST_DIR}**
-because it's included by the building system. You can
-use directories of course.
-Its automated requirement is the same file in **${SRC_DIR}** replacing
-*html* extension to *m4* extension.
+    The space-seperated list of static files (virtual pages aren't included)
+    what should create. Don't include the **${DEST_DIR}**
+    because it's included by the building system. You can
+    use directories of course.
+    Its automated requirement is the same file in **${SRC_DIR}** replacing
+    *html* extension to *m4* extension.
 
 * _TARGETS\_MANUAL_:
-The space-seperated list of static files what should create.
-Don't include the **${DEST_DIR}**
-because it's included by the building system. These targets don't have
-automatically generated requirement as the **${TARGETS}** above.
+    The space-seperated list of static files what should create.
+    Don't include the **${DEST_DIR}**
+    because it's included by the building system. These targets don't have
+    automatically generated requirement as the **${TARGETS}** above.
 
 * _GREQ_:
-Global requirement. It's needed by _every_ target. Default is empty.
+    Global requirement. It's needed by _every_ target. Default is empty.
 
 * _foo.html\_REQ_:
 Additional requirements of **foo.html** which is included in

@@ -67,6 +67,9 @@ source files (usually \f[B]*.m4\f[]) are. It can contain subdirectories.
 \f[I]ASSETS_DIR\f[]: In this directory are the static files
 (*\f[B].css\f[], *\f[B].js\f[], etc.).
 .IP \[bu] 2
+\f[I]ASSETS_CP\f[]: The command who will copy the \f[B]${ASSETS_DIR}\f[].
+Default is \f[B]@cp \-r\f[].
+.IP \[bu] 2
 \f[I]DEST_DIR\f[]: The compiled (created) HTML's place. The subdirectory
 tree of \f[B]${SRC_DIR}\f[] is created in this directory by \f[I]make\f[].
 .IP \[bu] 2

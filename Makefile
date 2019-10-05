@@ -25,6 +25,8 @@ MSG=@echo "==>"
 MSG1=@echo "  ==>"
 MSG2=@echo "    ==>"
 
+ASSETS_CP?=	@cp -r
+
 INCL=${CAT} ${COMMON_DIR}${M4_DEFINITIONS}
 
 # Working Targets
@@ -113,7 +115,7 @@ ${CT}:	${CONFIGMK} ${DEP}
 assets::
 .ifdef ASSETS_DIR
 	$(MSG) Copy ${ASSETS_DIR} to ${DEST_DIR}
-	@cp -r ${ASSETS_DIR} ${DEST_DIR}
+	$(ASSETS_CP) ${ASSETS_DIR} ${DEST_DIR}
 .endif
 
 virtual: pre-everything ${VIRTUAL_FILES}
