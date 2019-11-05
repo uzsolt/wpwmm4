@@ -50,6 +50,10 @@ This variable points to the source directory where the source files
 * _ASSETS\_DIR_:
 In this directory are the static files (***.css**, ***.js**, etc.).
 
+* _ASSETS\_DEST_DIR_:
+The target directory of static files. If you want inside **${DEST_DIR}**
+should include it into this variable.
+
 * _ASSETS\_CP_:
     The command who will copy the **${ASSETS_DIR}**. Default is **@cp -r**.
 

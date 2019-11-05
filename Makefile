@@ -26,6 +26,7 @@ MSG1=@echo "  ==>"
 MSG2=@echo "    ==>"
 
 ASSETS_CP?=	@cp -r
+ASSETS_DEST_DIR?=	${DEST_DIR}
 
 INCL=${CAT} ${COMMON_DIR}${M4_DEFINITIONS}
 
@@ -114,8 +115,8 @@ ${CT}:	${CONFIGMK} ${DEP}
 
 assets::
 .ifdef ASSETS_DIR
-	$(MSG) Copy ${ASSETS_DIR} to ${DEST_DIR}
-	$(ASSETS_CP) ${ASSETS_DIR} ${DEST_DIR}
+	$(MSG) Copy ${ASSETS_DIR} to ${ASSETS_DEST_DIR}
+	$(ASSETS_CP) ${ASSETS_DIR} ${ASSETS_DEST_DIR}
 .endif
 
 virtual: pre-everything ${VIRTUAL_FILES}
