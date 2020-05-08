@@ -122,7 +122,7 @@ The target filename which is under generating (without any extension).
 The system ships some helpers which you can use in your files. They are
 defined in **00_defines.m4**. Here is the list of helpers:
 
-* _\_BODY(options,content)_:
+* _\_BODY(content,options)_:
 Produces **\<body $options\>$content\</body\>**.
 
 * _\_CHARSET(charset)_:
