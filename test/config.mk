@@ -13,6 +13,7 @@ TEST-CATEGORIES=	\
 	CSS \
 	DIV \
 	DIVBE \
+	HEAD \
 	TAG \
 	TITLE
 
