@@ -14,6 +14,7 @@ TEST-CATEGORIES=	\
 	DIV \
 	DIVBE \
 	HEAD \
+	HREF \
 	TAG \
 	TITLE
 
